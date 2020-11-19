@@ -22,14 +22,14 @@
           <span class="input-group-text" id="basic-addon1">Quote</span>
         </div>
         <input type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
-               formControlName="start" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+               formControlName="newQuote" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon2">By author</span>
         </div>
         <input type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon1" id="quote-author"
-               formControlName="start" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+               formControlName="author" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
       </div>
       <div class="input-group mb-3" *ngIf="errorMessage">
         <span>{{errorMessage}}</span>

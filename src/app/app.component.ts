@@ -8,7 +8,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   inputQuotes: FormGroup;
-  title: string;
+  title = 'my-app';
   errorMessage: string;
   constructor(private fb: FormBuilder) {
 
@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.errorMessage = '';
-    this.title = 'my-app';
     this.inputQuotes = this.fb.group({
       newQuote: ['', Validators.required],
       author: ['']
