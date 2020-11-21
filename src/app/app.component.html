@@ -21,8 +21,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">Quote</span>
         </div>
-        <input type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
-               formControlName="newQuote" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+        <textarea type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
+                  formControlName="newQuote" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched"></textarea>
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -43,5 +43,11 @@
     </form>
 
 
+  </div>
+  <div class="quote-container">
+    <p *ngIf="displayQuotes.length">Inserted quotes:</p>
+    <ul class="list-group" *ngFor="let quote of displayQuotes" id="quote-list">
+      <li class="list-group-item">{{quote.text}}</li>
+    </ul>
   </div>
   <router-outlet></router-outlet>
