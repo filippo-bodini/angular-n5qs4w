@@ -13,8 +13,7 @@ export class DataService {
     let quotesArr = [];
     const localstorageItem = localStorage.getItem('localQuotes');
     if (localstorageItem !== null) {
-      quotesArr = JSON.parse(localstorageItem);
-      quotesArr.push(quote);
+      quotesArr = [quote, ...JSON.parse(localstorageItem)];
     } else {
       quotesArr.push(quote);
     }

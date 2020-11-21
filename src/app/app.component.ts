@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     const newQuote = {text: values.newQuote, author: values.author, createdAt: this.datePipe.transform(date, 'yyyy-MM-dd')} as QuoteInterface;
     try {
       this.dataService.saveQuote(newQuote);
-      this.displayQuotes.push(newQuote);
+      this.displayQuotes = [newQuote, ...this.displayQuotes];
     } catch (e) {
       this.logger.warn(e);
     }

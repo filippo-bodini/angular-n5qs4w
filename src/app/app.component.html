@@ -46,8 +46,10 @@
   </div>
   <div class="quote-container">
     <p *ngIf="displayQuotes.length">Inserted quotes:</p>
-    <ul class="list-group" *ngFor="let quote of displayQuotes" id="quote-list">
-      <li class="list-group-item">{{quote.text}}</li>
-    </ul>
+    <div id="quote-list">
+      <ul class="list-group" *ngFor="let quote of displayQuotes">
+        <li class="list-group-item">{{quote.text}}</li>
+      </ul>
+    </div>
   </div>
   <router-outlet></router-outlet>
