@@ -21,15 +21,15 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">Quote</span>
         </div>
-        <input type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
-               formControlName="start" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+        <textarea type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
+                  formControlName="newQuote" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched"></textarea>
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon2">By author</span>
         </div>
         <input type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon1" id="quote-author"
-               formControlName="start" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+               formControlName="author" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
       </div>
       <div class="input-group mb-3" *ngIf="errorMessage">
         <span>{{errorMessage}}</span>
@@ -43,5 +43,13 @@
     </form>
 
 
+  </div>
+  <div class="quote-container">
+    <p *ngIf="displayQuotes.length">Inserted quotes:</p>
+    <div id="quote-list">
+      <ul class="list-group" *ngFor="let quote of displayQuotes">
+        <li class="list-group-item">{{quote.text}}</li>
+      </ul>
+    </div>
   </div>
   <router-outlet></router-outlet>
