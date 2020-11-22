@@ -1,12 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {environment} from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LoggerService} from './common/logger.service';
 import {DataService} from './common/data-service.service';
 import {DatePipe} from '@angular/common';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import * as QuoteReducer from './Store/reducers';
+import {QuoteEffects} from './Store/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -15,7 +20,15 @@ import {DatePipe} from '@angular/common';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EffectsModule.forRoot(),
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    StoreModule.forFeature('quote', QuoteReducer.reducer),
+    EffectsModule.forFeature([QuoteEffects]),
   ],
   providers: [DataService, LoggerService, DatePipe],
   bootstrap: [AppComponent]
