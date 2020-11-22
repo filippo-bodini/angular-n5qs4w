@@ -24,6 +24,14 @@ export class DataService {
     }
   }
 
+  saveQuotes(quotes: QuoteInterface[]): void {
+    try{
+      localStorage.setItem('localQuotes', JSON.stringify(quotes));
+    } catch (e) {
+      this.logger.warn(e);
+    }
+  }
+
   fetchQuotes(): QuoteInterface[] {
     const localstorageItem = localStorage.getItem('localQuotes');
     if (!localstorageItem) {

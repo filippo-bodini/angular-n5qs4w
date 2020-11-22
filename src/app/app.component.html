@@ -44,12 +44,23 @@
 
 
   </div>
-  <div class="quote-container">
-    <p *ngIf="displayQuotes.length">Inserted quotes:</p>
-    <div id="quote-list">
-      <ul class="list-group" *ngFor="let quote of displayQuotes">
-        <li class="list-group-item">{{quote.text}}</li>
-      </ul>
+<!--  <div class="quote-container">-->
+<!--    <p *ngIf="displayQuotes.length">Inserted quotes:</p>-->
+<!--    <div id="quote-list">-->
+<!--      <ul class="list-group" *ngFor="let quote of displayQuotes">-->
+<!--        <li class="list-group-item">{{quote.text}}</li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <ng-container *ngIf="(state$ | async) as state">
+    <div  *ngIf="state.ready" class="quote-container">
+      <p *ngIf="state.results.length">Inserted quotes:</p>
+      <div id="quote-list">
+        <ul class="list-group" *ngFor="let quote of state.availableResults">
+          <li class="list-group-item">{{quote.text}}</li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </ng-container>
   <router-outlet></router-outlet>

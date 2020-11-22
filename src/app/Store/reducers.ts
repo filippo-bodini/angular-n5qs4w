@@ -20,7 +20,7 @@ const initialState: QuoteState = {
 export const QuoteReducer = createReducer(
   initialState,
   on(listReset, (state) => initialState),
-  on(listAddResult, (state, {result}) => listAddResultState(state, result)),
+  on(listAddResult, (state, {newQuote}) => listAddResultState(state, newQuote)),
   on(listComplete, (state) => listCompleteState(state)),
 );
 
@@ -32,11 +32,12 @@ export function reducer(state, action: Action): QuoteState {
  * State reducers
  */
 
-export function listAddResultState(state: QuoteState, result: QuoteInterface): QuoteState {
+export function listAddResultState(state: QuoteState, newQuote: QuoteInterface): QuoteState {
 
   let newState = {
     ...state,
-    results: [...state.results, result],
+    ready: true,
+    results: [...state.results, newQuote],
     numResults: state.numResults + 1,
   } as QuoteState;
 
