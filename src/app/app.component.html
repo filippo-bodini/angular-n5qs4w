@@ -46,10 +46,17 @@
   </div>
   <ng-container *ngIf="(state$ | async) as state">
     <div  *ngIf="state.ready" class="quote-container">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Filter</span>
+        </div>
+        <input type="text" (input)="filterKeyword($event.target.value)" class="form-control" placeholder="By author or any keyword"
+               aria-label="Author" aria-describedby="basic-addon3" id="filter-keyword">
+      </div>
       <p *ngIf="state.results.length">Inserted quotes:</p>
       <div id="quote-list">
-        <ul class="list-group" *ngFor="let quote of state.availableResults">
-          <li class="list-group-item">{{quote.text}}</li>
+        <ul class="list-group" >
+          <li class="list-group-item" *ngFor="let quote of state.availableResults">{{quote.text}}</li>
         </ul>
       </div>
     </div>

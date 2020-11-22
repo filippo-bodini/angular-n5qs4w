@@ -14,7 +14,7 @@ export const listReset = createAction(QuoteListActionTypes.QUOTE_LIST_RESET);
 export const listAddResult = createAction(QuoteListActionTypes.QUOTE_LIST_ADD_RESULT, props<{ newQuote: QuoteInterface }>());
 export const listComplete = createAction(QuoteListActionTypes.QUOTE_LIST_COMPLETE);
 export const orderCreatedAt  = createAction(QuoteListActionTypes.QUOTE_LIST_ORDER_CREATION, props<{ direction: SortDirection }>());
-export const filterKeyword = createAction(QuoteListActionTypes.QUOTE_LIST_FILTER_KEYWORDS, props<{ keyword: string }>());
+export const filterKeywords = createAction(QuoteListActionTypes.QUOTE_LIST_FILTER_KEYWORDS, props<{ keywords: string[] }>());
 export const saveItems = createAction(QuoteListActionTypes.QUOTE_LIST_SAVE_ITEMS);
 
 const all = union({
@@ -22,7 +22,7 @@ const all = union({
   listAddResult,
   listComplete,
   orderCreatedAt,
-  filterKeyword,
+  filterKeywords,
   saveItems
 });
 
