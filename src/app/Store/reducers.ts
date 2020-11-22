@@ -1,7 +1,7 @@
 import {QuoteInterface} from '../interface/quote.interface';
 import {KeywordsFilterInterface, QuoteState, SortDirection, SortType} from './state';
 import {Action, createReducer, on} from '@ngrx/store';
-import {listAddResult, listComplete, listReset} from './actions';
+import {filterKeywords, listAddResult, listComplete, listReset} from './actions';
 
 const initialState: QuoteState = {
   ready: false,
@@ -22,6 +22,7 @@ export const QuoteReducer = createReducer(
   on(listReset, (state) => initialState),
   on(listAddResult, (state, {newQuote}) => listAddResultState(state, newQuote)),
   on(listComplete, (state) => listCompleteState(state)),
+  on(filterKeywords, (state, {keywords}) => toggleKeywordFilterState(state, keywords)),
 );
 
 export function reducer(state, action: Action): QuoteState {
@@ -74,6 +75,23 @@ function updateStateAvailableResults(state: QuoteState): QuoteState {
   } as QuoteState;
 }
 
+function toggleKeywordFilterState(state: QuoteState, keywords: string[]): QuoteState {
+  // Prepare and return the new SearchListState
+  let newState = {
+    ...state,
+    filters: {
+      ...state.filters,
+      keywords: {
+        activeValues: keywords
+      }
+    }
+  } as QuoteState;
+
+  newState = updateStateAvailableResults(newState);
+
+  return newState;
+}
+
 function applyStateFilters(state: QuoteState, results: QuoteInterface[]): QuoteInterface[] {
   let dataset = [...results];
 
@@ -109,11 +127,25 @@ export function initKeywordFilter(): KeywordsFilterInterface {
  * Filtering functions
  */
 
-function applyKeywordFilter(dataset: QuoteInterface[], keywords: KeywordsFilterInterface): QuoteInterface[] {
-  if (!keywords.activeValues.length) {
+export function applyKeywordFilter(dataset: QuoteInterface[], keywords: KeywordsFilterInterface): QuoteInterface[] {
+  // convert to lowercase
+  const lowerKeywords = { activeValues : keywords.activeValues.map(value => value.toLowerCase()) } as KeywordsFilterInterface;
+  if (!lowerKeywords.activeValues.length) {
     return dataset;
   }
-  return [...dataset].filter(element => keywords.activeValues.includes(element.author));
+  return [...dataset].filter(element => {
+    for (const keyword of lowerKeywords.activeValues) {
+      if (element.author.toLowerCase().includes(keyword.toLowerCase())) {
+        return true;
+      }
+    }
+    for (const keyword of lowerKeywords.activeValues) {
+      if (element.text.toLowerCase().includes(keyword.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  });
 }
 
 /**
