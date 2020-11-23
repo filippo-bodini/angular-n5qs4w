@@ -112,4 +112,17 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('#quote-list')).toBeTruthy();
   });
+
+  it(`should have a button to copy to clipboard`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+    component.inputQuotes.controls.author.setValue(newQuotes[0].author);
+    component.inputQuotes.controls.newQuote.setValue(newQuotes[0].text);
+    component.insertNewQuote();
+    component.fetchQuotes();
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.right-btn')).toBeTruthy();
+  });
 });
