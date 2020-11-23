@@ -133,7 +133,19 @@ a:hover {
   float: right;
 }
 
+
 .author {
   font-size: 11px;
   display: contents;
+}
+
+
+/* sidebar nav */
+.quote-container-sidebar {
+  width: 100%;
+}
+
+.sidelist {
+  height: 700px;
+  overflow: auto;
 }
