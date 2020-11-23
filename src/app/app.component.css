@@ -127,3 +127,8 @@ a:hover {
   display: inline-block;
   float: right;
 }
+
+.author {
+  font-size: 11px;
+  display: contents;
+}
