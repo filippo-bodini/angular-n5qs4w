@@ -123,3 +123,7 @@ a:hover {
   }
 }
 
+.right-btn {
+  display: inline-block;
+  float: right;
+}

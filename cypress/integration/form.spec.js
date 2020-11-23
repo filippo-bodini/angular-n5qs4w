@@ -75,4 +75,16 @@ context('Maps', () => {
     cy.get('#quote-list > ul').children().should('have.length', 1);
   })
 
+  it('Shoud copy/paste quotes', () => {
+    cy.get('#evaluate-quote').should('have.attr', 'disabled');
+
+    cy.get('#new-quote').type('my test quote fast');
+    cy.get('#evaluate-quote').click();
+    cy.wait(1000);
+
+    cy.get('#quote-list > ul').children().first().get('button').click();
+    const pasted = document.execCommand('paste');
+    cy.get('#quote-list > ul').children().first().should('have.text', pasted);
+  })
+
 })
