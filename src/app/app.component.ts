@@ -64,4 +64,18 @@ export class AppComponent implements OnInit, OnDestroy {
     const valueArr = value.split(' ').filter(val => val !== '');
     this.keywordsFilter$.next(valueArr as string[]);
   }
+
+  public copyToClipboard(quote): void {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = quote.author && quote.author !== '' ? quote.text + ' (' + quote.author + ')' : quote.text;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
 }

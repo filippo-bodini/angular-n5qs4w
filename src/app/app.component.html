@@ -56,7 +56,7 @@
       <p *ngIf="state.results.length">Inserted quotes:</p>
       <div id="quote-list">
         <ul class="list-group" >
-          <li class="list-group-item" *ngFor="let quote of state.availableResults">{{quote.text}}</li>
+          <li class="list-group-item" *ngFor="let quote of state.availableResults">{{quote.text}}<button class="input-group-text right-btn" (click)="copyToClipboard(quote)"><i class="fa fa-copy"></i></button></li>
         </ul>
       </div>
     </div>
