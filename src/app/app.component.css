@@ -117,7 +117,12 @@ a:hover {
 .submit-btn {
   background-color: #1976d2;
 }
-@media only screen and (min-width: 760px) {
+@media only screen and (max-width: 767px) {
+  .quote-container {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) {
   .quote-container {
     width: 700px;
   }
