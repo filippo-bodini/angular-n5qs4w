@@ -10,7 +10,7 @@
 </div>
 <div class="container-flex">
   <div class="row">
-    <div class="col-lg-8 col-md-6">
+    <div class="col-xl-6 col-lg-8 col-md-6">
       <div class="content" role="main" *ngIf="!mobileMenuOpened">
 
         <!-- Resources -->
@@ -67,9 +67,9 @@
           </div>
         </ng-container>
       </div>
-      <app-quote-suggestions *ngIf="mobileMenuOpened"></app-quote-suggestions>
+      <app-quote-suggestions *ngIf="mobileMenuOpened" class="d-md-none"></app-quote-suggestions>
     </div>
-    <div class="d-none d-md-block col-lg-4 col-md-6">
+    <div class="d-none d-md-block col-xl-6 col-lg-4 col-md-6">
       <app-quote-suggestions></app-quote-suggestions>
     </div>
   </div>
