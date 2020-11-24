@@ -66,6 +66,7 @@ export function listCompleteState(state: QuoteState, quotes: QuoteInterface[]): 
 }
 
 export function addListSuggestionState(state: QuoteState, quotes: QuoteInterface[]): QuoteState {
+  console.log(quotes.length);
   // Return the new state
   return {
     ...state,

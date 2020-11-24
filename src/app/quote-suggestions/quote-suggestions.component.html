@@ -1,53 +1,14 @@
-<div class="content" role="main">
+<div class="content" role="main"  *ngIf="(state$ | async) as state">
   <h2>Quote suggestions</h2>
   <p>Chose quotes from the list</p>
   <div class="quote-container-sidebar">
-    <div id="quote-suggestion-list">
-      <ul class="list-group sidelist " >
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
-        <li class="list-group-item">
-          <p>my test tuote</p>
-          <p class="author">(my test tuote)</p>
-          <button class="input-group-text right-btn"><i class="fa fa-plus"></i></button></li>
+    <div id="quote-suggestion-list" *ngIf="state.suggestionQuotes.length" >
+      <ul class="list-group sidelist">
+        <li class="list-group-item" *ngFor="let quote of state.suggestionQuotes">
+          <p>{{quote.text}}</p>
+          <p *ngIf="quote.author && quote.author !== ''" class="author">({{quote.author}})</p>
+          <button class="input-group-text right-btn" (click)="addToMyQuotes(quote)"><i class="fa fa-save"></i></button>
+        </li>
       </ul>
     </div>
   </div>

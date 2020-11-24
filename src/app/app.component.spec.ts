@@ -10,7 +10,8 @@ import * as QuoteReducer from './store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {QuoteEffects} from './store/effects';
 import {ApiService} from './common/api/api.service';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
+import {QuoteSuggestionsComponent} from './quote-suggestions/quote-suggestions.component';
 
 describe('AppComponent', () => {
   const newQuotes = [
@@ -37,10 +38,11 @@ describe('AppComponent', () => {
         EffectsModule.forFeature([QuoteEffects])
       ],
       declarations: [
-        AppComponent
+        AppComponent, QuoteSuggestionsComponent
       ],
       providers: [ FormBuilder, DataService, LoggerService, DatePipe, ApiService ]
     }).compileComponents();
+    localStorage.setItem('localQuotes', JSON.stringify([]));
   });
 
   it('should create the app', () => {
@@ -87,7 +89,7 @@ describe('AppComponent', () => {
   });
 
   it(`should insert quotes`, () => {
-    // In this unit testing we don't simulate form compilation, we test the logic behind
+    localStorage.setItem('localQuotes', JSON.stringify([]));
     const fixture = TestBed.createComponent(AppComponent);
     const component = fixture.componentInstance;
     component.ngOnInit();
@@ -95,12 +97,18 @@ describe('AppComponent', () => {
     component.inputQuotes.controls.newQuote.setValue(newQuotes[0].text);
     component.insertNewQuote();
     component.fetchQuotes();
-    expect(component.displayQuotes.length).toEqual(1);
+    fixture.detectChanges();
+    let compiled = fixture.nativeElement;
+    console.log(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length);
+    expect(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length).toEqual(1);
     component.inputQuotes.controls.author.setValue(newQuotes[1].author);
     component.inputQuotes.controls.newQuote.setValue(newQuotes[1].text);
     component.insertNewQuote();
     component.fetchQuotes();
-    expect(component.displayQuotes.length).toEqual(2);
+    fixture.detectChanges();
+    compiled = fixture.nativeElement;
+    console.log(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length);
+    expect(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length).toEqual(2);
     component.displayQuotes = [];
   });
 

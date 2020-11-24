@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {DatePipe} from '@angular/common';
 import {QuoteInterface} from './interface/quote.interface';
@@ -25,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   mobileMenuOpened: boolean;
   private keywordsFilter$ = new Subject<string[]>();
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private logger: LoggerService,
+  constructor(private fb: FormBuilder, private logger: LoggerService,
               private datePipe: DatePipe, private readonly store: Store<QuoteState>) {
     this.state$ = this.store.pipe(
       select(selectQuoteState),
@@ -61,7 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public fetchQuotes(): void {
     this.store.dispatch(fetchItems());
-    // this.displayQuotes = this.dataService.fetchQuotes();
   }
 
   public filterKeyword(value): void {
@@ -70,7 +68,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public copyToClipboard(quote): void {
-    let selBox = document.createElement('textarea');
+    // a safe procedure to copy elements @todo how to test?
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
