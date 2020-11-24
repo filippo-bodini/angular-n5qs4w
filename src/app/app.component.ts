@@ -4,11 +4,11 @@ import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {DatePipe} from '@angular/common';
 import {QuoteInterface} from './interface/quote.interface';
-import {QuoteState} from './Store/state';
+import {QuoteState} from './store/state';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
-import {selectQuoteState} from './Store/selectors';
-import {filterKeywords, listAddResult, saveItems} from './Store/actions';
+import {selectQuoteState} from './store/selectors';
+import {filterKeywords, listAddResult, saveItems} from './store/actions';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   errorMessage: string;
   state$: Observable<QuoteState>;
   displayQuotes: QuoteInterface[] = [];
+  mobileMenuOpened: boolean;
   private keywordsFilter$ = new Subject<string[]>();
 
   constructor(private fb: FormBuilder, private dataService: DataService, private logger: LoggerService,
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.mobileMenuOpened = false;
     this.errorMessage = '';
     this.inputQuotes = this.fb.group({
       newQuote: ['', Validators.required],

@@ -9,13 +9,15 @@ import {DataService} from './common/data-service.service';
 import {DatePipe} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import * as QuoteReducer from './Store/reducers';
-import {QuoteEffects} from './Store/effects';
+import * as QuoteReducer from './store/reducers';
+import {QuoteEffects} from './store/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { QuoteSuggestionsComponent } from './quote-suggestions/quote-suggestions.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QuoteSuggestionsComponent
   ],
   imports: [
     BrowserModule,

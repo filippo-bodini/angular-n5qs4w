@@ -6,9 +6,9 @@ import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {DatePipe} from '@angular/common';
 import {StoreModule} from "@ngrx/store";
-import * as QuoteReducer from "./Store/reducers";
+import * as QuoteReducer from "./store/reducers";
 import {EffectsModule} from "@ngrx/effects";
-import {QuoteEffects} from "./Store/effects";
+import {QuoteEffects} from "./store/effects";
 
 describe('AppComponent', () => {
   const newQuotes = [

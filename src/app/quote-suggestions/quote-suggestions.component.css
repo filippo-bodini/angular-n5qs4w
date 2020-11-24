@@ -1,0 +1,8 @@
+.quote-container-sidebar {
+  width: 100%;
+}
+
+.sidelist {
+  height: 700px;
+  overflow: auto;
+}
