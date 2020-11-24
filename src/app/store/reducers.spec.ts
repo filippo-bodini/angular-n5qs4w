@@ -51,10 +51,19 @@ describe('Search reducer features tests', () => {
   });
 
   describe('default', () => {
+    it('should never add twice the same item', () => {
+      const newState = initialState;
+      let modifiedState = listAddResultState(newState, results[0]);
+      modifiedState = listAddResultState(modifiedState, results[0]);
+      expect(modifiedState.results.length).toEqual(1);
+    });
+  });
+
+  describe('default', () => {
     it('should add suggested quotes to init state', () => {
       const newState = initialState;
       const modifiedState = addListSuggestionState(newState, results);
-      expect(modifiedState.suggestionQuotes.length).toEqual(results.length);
+      expect(modifiedState.suggestionQuotes.length).toEqual(1);
     });
   });
 

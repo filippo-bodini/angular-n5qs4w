@@ -2,6 +2,7 @@ import {QuoteInterface} from '../interface/quote.interface';
 import {KeywordsFilterInterface, QuoteState, SortDirection, SortType} from './state';
 import {Action, createReducer, on} from '@ngrx/store';
 import { filterKeywords, listAddResult, listComplete, listReset, storeSuggestions} from './actions';
+import {DatePipe} from "@angular/common";
 
 const initialState: QuoteState = {
   ready: false,
@@ -36,7 +37,12 @@ export function reducer(state, action: Action): QuoteState {
  */
 
 export function listAddResultState(state: QuoteState, newQuote: QuoteInterface): QuoteState {
-
+  const found = state.results.filter((element) => {
+    return (element.text === newQuote.text && element.author === newQuote.author);
+  });
+  if (found.length) {
+    return {...state} as QuoteState;
+  }
   let newState = {
     ...state,
     ready: true,
@@ -66,11 +72,12 @@ export function listCompleteState(state: QuoteState, quotes: QuoteInterface[]): 
 }
 
 export function addListSuggestionState(state: QuoteState, quotes: QuoteInterface[]): QuoteState {
-  console.log(quotes.length);
+  // chose a random element of array (a random quote).
+  const newQuoteSuggestion = quotes[Math.floor(Math.random() * quotes.length)];
   // Return the new state
   return {
     ...state,
-    suggestionQuotes: [...quotes]
+    suggestionQuotes: [newQuoteSuggestion]
   } as QuoteState;
 }
 

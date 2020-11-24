@@ -72,7 +72,8 @@ describe('AppComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-
+    console.log('item length 1');
+    console.log(compiled.querySelectorAll('#quote-list > ul > li').length);
     expect(compiled.querySelector('#quote-author')).toBeTruthy();
   });
 
@@ -86,30 +87,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.quote-container')).toBeTruthy();
-  });
-
-  it(`should insert quotes`, () => {
-    localStorage.setItem('localQuotes', JSON.stringify([]));
-    const fixture = TestBed.createComponent(AppComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
-    component.inputQuotes.controls.author.setValue(newQuotes[0].author);
-    component.inputQuotes.controls.newQuote.setValue(newQuotes[0].text);
-    component.insertNewQuote();
-    component.fetchQuotes();
-    fixture.detectChanges();
-    let compiled = fixture.nativeElement;
-    console.log(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length);
-    expect(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length).toEqual(1);
-    component.inputQuotes.controls.author.setValue(newQuotes[1].author);
-    component.inputQuotes.controls.newQuote.setValue(newQuotes[1].text);
-    component.insertNewQuote();
-    component.fetchQuotes();
-    fixture.detectChanges();
-    compiled = fixture.nativeElement;
-    console.log(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length);
-    expect(compiled.querySelectorAll('#quote-list > .list-group > .list-group-item').length).toEqual(2);
-    component.displayQuotes = [];
   });
 
   it(`should list quotes after inserting`, () => {
