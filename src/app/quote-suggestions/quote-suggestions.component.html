@@ -1,0 +1,15 @@
+<div class="content" role="main"  *ngIf="(state$ | async) as state">
+  <h2>Quote suggestion</h2>
+  <p>This is the quote that you can save...</p>
+  <div class="quote-container-sidebar">
+    <div id="quote-suggestion-list" *ngIf="state.suggestionQuotes.length" >
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let quote of state.suggestionQuotes">
+          <p>{{quote.text}}</p>
+          <p *ngIf="quote.author && quote.author !== ''" class="author">({{quote.author}})</p>
+          <button class="input-group-text right-btn" (click)="addToMyQuotes(quote)"><i class="fa fa-save"></i></button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

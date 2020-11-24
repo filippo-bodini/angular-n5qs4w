@@ -1,14 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {DatePipe} from '@angular/common';
 import {QuoteInterface} from './interface/quote.interface';
-import {QuoteState} from './Store/state';
+import {QuoteState} from './store/state';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
-import {selectQuoteState} from './Store/selectors';
-import {filterKeywords, listAddResult, saveItems} from './Store/actions';
+import {selectQuoteState} from './store/selectors';
+import {fetchItems, filterKeywords, listAddResult, saveItems} from './store/actions';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -22,9 +21,10 @@ export class AppComponent implements OnInit, OnDestroy {
   errorMessage: string;
   state$: Observable<QuoteState>;
   displayQuotes: QuoteInterface[] = [];
+  mobileMenuOpened: boolean;
   private keywordsFilter$ = new Subject<string[]>();
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private logger: LoggerService,
+  constructor(private fb: FormBuilder, private logger: LoggerService,
               private datePipe: DatePipe, private readonly store: Store<QuoteState>) {
     this.state$ = this.store.pipe(
       select(selectQuoteState),
@@ -32,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.fetchQuotes();
+    this.mobileMenuOpened = false;
     this.errorMessage = '';
     this.inputQuotes = this.fb.group({
       newQuote: ['', Validators.required],
@@ -57,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public fetchQuotes(): void {
-    this.displayQuotes = this.dataService.fetchQuotes();
+    this.store.dispatch(fetchItems());
   }
 
   public filterKeyword(value): void {
@@ -66,7 +68,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public copyToClipboard(quote): void {
-    let selBox = document.createElement('textarea');
+    // a safe procedure to copy elements @todo how to test?
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';

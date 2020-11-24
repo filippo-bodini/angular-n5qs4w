@@ -2,7 +2,7 @@ import {QuoteState, SortDirection, SortType } from './state';
 
 import {
   listAddResultState,
-  applyKeywordFilter
+  applyKeywordFilter, addListSuggestionState
 } from './reducers';
 import {QuoteInterface} from '../interface/quote.interface';
 
@@ -10,6 +10,7 @@ const initialState: QuoteState = {
   ready: false,
   results: [],
   availableResults: [],
+  suggestionQuotes: [],
   numResults: 0,
   numAvailableResults: 0,
   hasFilters: false,
@@ -46,6 +47,23 @@ describe('Search reducer features tests', () => {
       const newState = initialState;
       const modifiedState = listAddResultState(newState, results[0]);
       expect(newState.results.length).toBeLessThan(modifiedState.results.length);
+    });
+  });
+
+  describe('default', () => {
+    it('should never add twice the same item', () => {
+      const newState = initialState;
+      let modifiedState = listAddResultState(newState, results[0]);
+      modifiedState = listAddResultState(modifiedState, results[0]);
+      expect(modifiedState.results.length).toEqual(1);
+    });
+  });
+
+  describe('default', () => {
+    it('should add suggested quotes to init state', () => {
+      const newState = initialState;
+      const modifiedState = addListSuggestionState(newState, results);
+      expect(modifiedState.suggestionQuotes.length).toEqual(1);
     });
   });
 
