@@ -1,4 +1,79 @@
-<hello name="{{ name }}"></hello>
-<p>
-  Start editing to see some magic happen :)
-</p>
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <span>My quote manager</span>
+  <div class="d-md-none menu-buttons">
+    <button [hidden]="mobileMenuOpened" class="input-group-text right-btn" (click)="mobileMenuOpened = !mobileMenuOpened"><i class="fa fa-plus"></i></button>
+    <button [hidden]="!mobileMenuOpened" class="input-group-text right-btn" (click)="mobileMenuOpened = !mobileMenuOpened"><i class="fa fa-minus"></i></button>
+  </div>
+
+
+</div>
+<div class="container-flex">
+  <div class="row">
+    <div class="col-xl-6 col-lg-8 col-md-6">
+      <div class="content" role="main" *ngIf="!mobileMenuOpened">
+
+        <!-- Resources -->
+        <h2>My quote manager</h2>
+        <p>Insert a quote and we will save it...</p>
+
+        <div class="card-container">
+          <form [formGroup]="inputQuotes"  (ngSubmit)="insertNewQuote()" class="flex-form">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Quote</span>
+              </div>
+              <textarea type="text" class="form-control" placeholder="My new quote..." aria-label="My new quote..." aria-describedby="basic-addon1" id="new-quote"
+                        formControlName="newQuote" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched"></textarea>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">By author</span>
+              </div>
+              <input type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="basic-addon1" id="quote-author"
+                     formControlName="author" [class.error]="inputQuotes.controls.newQuote.invalid && inputQuotes.controls.newQuote.touched">
+            </div>
+            <div class="input-group mb-3" *ngIf="errorMessage">
+              <span>{{errorMessage}}</span>
+            </div>
+            <div class="input-group mb-3">
+              <button class="btn submit-btn" type="submit" [disabled]="!inputQuotes.valid" id="evaluate-quote">
+                <span>Insert</span>
+              </button>
+            </div>
+
+          </form>
+
+
+        </div>
+        <ng-container *ngIf="(state$ | async) as state">
+          <div  *ngIf="state.ready" class="quote-container">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Filter</span>
+              </div>
+              <input type="text" (input)="filterKeyword($event.target.value)" class="form-control" placeholder="By author or any keyword"
+                     aria-label="Author" aria-describedby="basic-addon3" id="filter-keyword">
+            </div>
+            <p *ngIf="state.results.length">Inserted quotes:</p>
+            <div id="quote-list">
+              <ul class="list-group" >
+                <li class="list-group-item" *ngFor="let quote of state.availableResults">
+                  <p>{{quote.text}}</p>
+                  <p *ngIf="quote.author && quote.author !== ''" class="author">({{quote.author}})</p>
+                  <button class="input-group-text right-btn" (click)="copyToClipboard(quote)"><i class="fa fa-copy"></i></button></li>
+              </ul>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-quote-suggestions *ngIf="mobileMenuOpened" class="d-md-none"></app-quote-suggestions>
+    </div>
+    <div class="d-none d-md-block col-xl-6 col-lg-4 col-md-6">
+      <app-quote-suggestions></app-quote-suggestions>
+    </div>
+  </div>
+
+</div>
+
+  <router-outlet></router-outlet>
