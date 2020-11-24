@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {QuoteState} from './state';
 import {select, Store} from '@ngrx/store';
-import {QuoteListActionTypes, QuoteListActionUnion} from './actions';
+import { listComplete, QuoteListActionTypes, QuoteListActionUnion, storeSuggestions} from './actions';
 import {concatMap, tap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {selectQuoteState} from './selectors';
 import {DataService} from '../common/data-service.service';
+import {QuoteInterface} from '../interface/quote.interface';
 
 
 @Injectable()
@@ -23,6 +24,34 @@ export class QuoteEffects {
     }),
     ),
     { dispatch: false });
+
+  fetchItems$ = createEffect(() => this.actions$.pipe(
+    ofType(QuoteListActionTypes.QUOTE_LIST_FETCH_ITEMS),
+    // Import latest state
+    concatMap(action => of(action).pipe(
+      withLatestFrom(this.store$.pipe(select(selectQuoteState)))
+    )),
+    tap(() => {
+      const quotes = this.dataService.fetchQuotes() as QuoteInterface[];
+      this.store$.dispatch(listComplete({quotes}));
+    }),
+    ),
+    { dispatch: false });
+
+
+  fetchExternalItems$ = createEffect(() => this.actions$.pipe(
+    ofType(QuoteListActionTypes.QUOTE_LIST_FETCH_SUGGESTION),
+    // Import latest state
+    concatMap(action => of(action).pipe(
+      withLatestFrom(this.store$.pipe(select(selectQuoteState)))
+    )),
+    tap(async () => {
+      const quotes = await this.dataService.fetchQuotesSuggestions() as QuoteInterface[];
+      this.store$.dispatch(storeSuggestions({quotes}));
+    }),
+    ),
+    { dispatch: false });
+
   constructor(
     private readonly store$: Store<QuoteState>,
     private readonly actions$: Actions<QuoteListActionUnion>,

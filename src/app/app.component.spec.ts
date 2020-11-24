@@ -5,10 +5,12 @@ import {FormBuilder} from '@angular/forms';
 import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {DatePipe} from '@angular/common';
-import {StoreModule} from "@ngrx/store";
-import * as QuoteReducer from "./store/reducers";
-import {EffectsModule} from "@ngrx/effects";
-import {QuoteEffects} from "./store/effects";
+import {StoreModule} from '@ngrx/store';
+import * as QuoteReducer from './store/reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {QuoteEffects} from './store/effects';
+import {ApiService} from './common/api/api.service';
+import {HttpClientModule} from "@angular/common/http";
 
 describe('AppComponent', () => {
   const newQuotes = [
@@ -28,6 +30,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        HttpClientModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('quote', QuoteReducer.reducer),
         EffectsModule.forRoot(),
@@ -36,7 +39,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      providers: [ FormBuilder, DataService, LoggerService, DatePipe ]
+      providers: [ FormBuilder, DataService, LoggerService, DatePipe, ApiService ]
     }).compileComponents();
   });
 
@@ -54,13 +57,20 @@ describe('AppComponent', () => {
 
   it(`should have a text area where you can write or paste a quote`, () => {
     const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('#new-quote')).toBeTruthy();
   });
 
   it(`should have a text area where you can write or paste the quote's author`, () => {
     const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
     const compiled = fixture.nativeElement;
+
     expect(compiled.querySelector('#quote-author')).toBeTruthy();
   });
 

@@ -12,6 +12,7 @@ export interface QuoteState {
   ready: boolean;                         // List is ready to be seen
   results: QuoteInterface[];              // Bookable results
   availableResults: QuoteInterface[];     // Complete array of results filtered and sorted (but not sliced into pages)
+  suggestionQuotes: QuoteInterface[];     // Complete array of suggestion quotes
   numResults: number;                     // Total number of found results
   numAvailableResults: number;            // Total number of filtered results
   hasFilters: boolean;                    // true if the search can be filtered

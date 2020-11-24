@@ -1,12 +1,13 @@
 import {QuoteInterface} from '../interface/quote.interface';
 import {KeywordsFilterInterface, QuoteState, SortDirection, SortType} from './state';
 import {Action, createReducer, on} from '@ngrx/store';
-import {filterKeywords, listAddResult, listComplete, listReset} from './actions';
+import { filterKeywords, listAddResult, listComplete, listReset, storeSuggestions} from './actions';
 
 const initialState: QuoteState = {
   ready: false,
   results: [],
   availableResults: [],
+  suggestionQuotes: [],
   numResults: 0,
   numAvailableResults: 0,
   hasFilters: false,
@@ -21,8 +22,9 @@ export const QuoteReducer = createReducer(
   initialState,
   on(listReset, (state) => initialState),
   on(listAddResult, (state, {newQuote}) => listAddResultState(state, newQuote)),
-  on(listComplete, (state) => listCompleteState(state)),
+  on(listComplete, (state, {quotes}) => listCompleteState(state, quotes)),
   on(filterKeywords, (state, {keywords}) => toggleKeywordFilterState(state, keywords)),
+  on(storeSuggestions, (state, {quotes}) => addListSuggestionState(state, quotes))
 );
 
 export function reducer(state, action: Action): QuoteState {
@@ -46,12 +48,14 @@ export function listAddResultState(state: QuoteState, newQuote: QuoteInterface):
   return newState;
 }
 
-export function listCompleteState(state: QuoteState): QuoteState {
+export function listCompleteState(state: QuoteState, quotes: QuoteInterface[]): QuoteState {
+  const results = quotes;
   const keywordFilter = initKeywordFilter();
   // Return the new state
   let newState = {
     ...state,
     ready: true,
+    results: [...state.results, ...results],
     filters: {
       keywords: keywordFilter
     }
@@ -59,6 +63,14 @@ export function listCompleteState(state: QuoteState): QuoteState {
 
   newState = updateStateAvailableResults(newState);
   return newState;
+}
+
+export function addListSuggestionState(state: QuoteState, quotes: QuoteInterface[]): QuoteState {
+  // Return the new state
+  return {
+    ...state,
+    suggestionQuotes: [...quotes]
+  } as QuoteState;
 }
 
 /**

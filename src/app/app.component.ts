@@ -8,7 +8,7 @@ import {QuoteState} from './store/state';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {selectQuoteState} from './store/selectors';
-import {filterKeywords, listAddResult, saveItems} from './store/actions';
+import {fetchItems, filterKeywords, listAddResult, saveItems} from './store/actions';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.fetchQuotes();
     this.mobileMenuOpened = false;
     this.errorMessage = '';
     this.inputQuotes = this.fb.group({
@@ -59,7 +60,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public fetchQuotes(): void {
-    this.displayQuotes = this.dataService.fetchQuotes();
+    this.store.dispatch(fetchItems());
+    // this.displayQuotes = this.dataService.fetchQuotes();
   }
 
   public filterKeyword(value): void {

@@ -13,6 +13,8 @@ import * as QuoteReducer from './store/reducers';
 import {QuoteEffects} from './store/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { QuoteSuggestionsComponent } from './quote-suggestions/quote-suggestions.component';
+import {ApiService} from './common/api/api.service';
+import { HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { QuoteSuggestionsComponent } from './quote-suggestions/quote-suggestions
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    HttpClientModule,
     EffectsModule.forRoot(),
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
@@ -32,7 +35,7 @@ import { QuoteSuggestionsComponent } from './quote-suggestions/quote-suggestions
     StoreModule.forFeature('quote', QuoteReducer.reducer),
     EffectsModule.forFeature([QuoteEffects]),
   ],
-  providers: [DataService, LoggerService, DatePipe],
+  providers: [DataService, LoggerService, DatePipe, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
