@@ -3,7 +3,7 @@
   <p>This is the quote that you can save...</p>
   <div class="quote-container-sidebar">
     <div id="quote-suggestion-list" *ngIf="state.suggestionQuotes.length" >
-      <ul class="list-group sidelist">
+      <ul class="list-group">
         <li class="list-group-item" *ngFor="let quote of state.suggestionQuotes">
           <p>{{quote.text}}</p>
           <p *ngIf="quote.author && quote.author !== ''" class="author">({{quote.author}})</p>

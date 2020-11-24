@@ -27,6 +27,7 @@ export class DataService {
     }
   }
 
+  // should call API instead localStorage
   saveQuotes(quotes: QuoteInterface[]): void {
     try{
       localStorage.setItem('localQuotes', JSON.stringify(quotes));
@@ -35,6 +36,7 @@ export class DataService {
     }
   }
 
+  // should call API instead localStorage
   fetchQuotes(): QuoteInterface[] {
     const localstorageItem = localStorage.getItem('localQuotes');
     if (!localstorageItem) {

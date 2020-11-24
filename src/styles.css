@@ -1,5 +1,6 @@
 /* Common-css */
 
+
 .content {
   display: flex;
   margin: 82px auto 32px;
@@ -22,11 +23,31 @@
 
 @media only screen and (min-width: 768px) {
   .quote-container {
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
   }
 }
 
 .right-btn {
   display: inline-block;
   float: right;
+}
+
+.list-group-item > p {
+  max-width: 90%;
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
 }

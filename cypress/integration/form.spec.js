@@ -75,15 +75,33 @@ context('Maps', () => {
     cy.get('#quote-list > ul').children().should('have.length', 1);
   })
 
+  // @todo: find a test to check pasted content
   it('Shoud copy/paste quotes', () => {
-    cy.get('#evaluate-quote').should('have.attr', 'disabled');
+    // cy.get('#evaluate-quote').should('have.attr', 'disabled');
+    //
+    // cy.get('#new-quote').type('my test quote fast');
+    // cy.get('#evaluate-quote').click();
+    // cy.wait(1000);
+    //
+    // cy.get('#quote-list > ul').children().first().get('button').click({ multiple: true });
+  })
 
+  it('Shoud save quote inside personal quote collection', () => {
+    cy.get('#evaluate-quote').should('have.attr', 'disabled');
     cy.get('#new-quote').type('my test quote fast');
+    cy.get('#quote-author').type('my test author');
     cy.get('#evaluate-quote').click();
     cy.wait(1000);
 
-    cy.get('#quote-list > ul').children().first().get('button').click({ multiple: true });
-    // @todo: find a test to check pasted content
+    cy.get('#new-quote').clear().type('The only way to go fast, is to go well.');
+    cy.get('#quote-author').clear().type('Robert C. Martin');
+    cy.get('#evaluate-quote').click();
+    cy.wait(1000);
+    cy.get('#filter-keyword').clear();
+    cy.wait(300);
+    cy.get('#quote-list > ul').children().should('have.length', 2);
+    cy.get('#quote-suggestion-list > ul > li > .right-btn').click();
+    cy.wait(300);
+    cy.get('#quote-list > ul').children().should('have.length', 3);
   })
-
 })
