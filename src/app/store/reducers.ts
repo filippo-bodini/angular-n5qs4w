@@ -2,7 +2,6 @@ import {QuoteInterface} from '../interface/quote.interface';
 import {KeywordsFilterInterface, QuoteState, SortDirection, SortType} from './state';
 import {Action, createReducer, on} from '@ngrx/store';
 import { filterKeywords, listAddResult, listComplete, listReset, storeSuggestions} from './actions';
-import {DatePipe} from "@angular/common";
 
 const initialState: QuoteState = {
   ready: false,
@@ -86,10 +85,13 @@ export function addListSuggestionState(state: QuoteState, quotes: QuoteInterface
  */
 
 function updateStateAvailableResults(state: QuoteState): QuoteState {
+  // order results by descending creation date
+  const results = applyStateSorters(state, state.results);
   const availableResults = applyStateSorters(state, applyStateFilters(state, state.results));
 
   return {
     ...state,
+    results: [...results],
     availableResults: [...availableResults],
     numAvailableResults: availableResults.length,
   } as QuoteState;

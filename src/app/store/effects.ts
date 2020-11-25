@@ -8,6 +8,7 @@ import {of} from 'rxjs';
 import {selectQuoteState} from './selectors';
 import {DataService} from '../common/data-service.service';
 import {QuoteInterface} from '../interface/quote.interface';
+import {environment} from '../../environments/environment';
 
 
 @Injectable()
@@ -31,8 +32,10 @@ export class QuoteEffects {
     concatMap(action => of(action).pipe(
       withLatestFrom(this.store$.pipe(select(selectQuoteState)))
     )),
-    tap(() => {
-      const quotes = this.dataService.fetchQuotes() as QuoteInterface[];
+    tap(async () => {
+      const quotes = environment.method === 'localStorage' ? this.dataService.fetchQuotes() as QuoteInterface[] :
+        await this.dataService.getQuotes();
+      console.log(quotes);
       this.store$.dispatch(listComplete({quotes}));
     }),
     ),

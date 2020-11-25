@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   apiSuggestionQuotesEndpoint: 'https://type.fit/api/quotes',
+  method: 'apiPlatform',
+  apiPlatformEndpoint: 'http://localhost:8000',
 };
 
 /*
