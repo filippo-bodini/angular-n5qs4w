@@ -4,7 +4,6 @@ import {QuoteInterface} from '../interface/quote.interface';
 import {environment} from '../../environments/environment';
 import {ApiService} from './api/api.service';
 import {ApiRequest} from './api/api.type';
-import {element} from "protractor";
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +48,6 @@ export class DataService {
           return false;
         }
       case 'apiPlatform':
-        debugger;
         // quotes[0] is the new quote because it's sorted by reducer that is already tested.
         this.saveQuote(quotes[0]).then(response => {
           return true;

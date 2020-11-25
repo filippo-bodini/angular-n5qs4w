@@ -72,8 +72,6 @@ describe('AppComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    console.log('item length 1');
-    console.log(compiled.querySelectorAll('#quote-list > ul > li').length);
     expect(compiled.querySelector('#quote-author')).toBeTruthy();
   });
 

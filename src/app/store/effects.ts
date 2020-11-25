@@ -35,7 +35,6 @@ export class QuoteEffects {
     tap(async () => {
       const quotes = environment.method === 'localStorage' ? this.dataService.fetchQuotes() as QuoteInterface[] :
         await this.dataService.getQuotes();
-      console.log(quotes);
       this.store$.dispatch(listComplete({quotes}));
     }),
     ),
